@@ -1,2 +1,4 @@
 flask~=3.0.2
 mongoengine~=0.28.2
+pypdf~=4.1.0
+openai~=1.14.2

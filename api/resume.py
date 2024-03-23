@@ -1,13 +1,13 @@
 from flask import Blueprint, request
-from services.resume_service import upload_service
-
+from services.resume_service import evaluate_service
+import json
 resume_route = Blueprint('resume_route', __name__)
 
 
-@resume_route.route("/api/resume/upload", methods=['POST'])
-def upload():
+@resume_route.route("/api/resume/evaluate", methods=['POST'])
+def evaluate():
     if 'file' not in request.files:
         return 'No file part'
 
     file = request.files['file']
-    return upload_service(file)
+    return json.dumps(evaluate_service(file))
