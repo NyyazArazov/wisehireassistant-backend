@@ -67,12 +67,18 @@ def get_response(text):
                                           "(NLP) techniques to understand and extract contextual information "
                                           "accurately. Ensure the parser handles different CV layouts and formats "
                                           "efficiently.Only provide information for the provided CV_text."},
-            {"role": "user", "content": "Please provide a JSON response, with the following structure," + '[{{'
-                                                                                                          '\\"Skills'
-                                                                                                          '\\":\\"<skills>\\",\\"University\\":\\"<university>\\",\\"Experience\\":\\"<experience>\\",\\"Languages\\":\\"<languages>\\",\\"Technology\\":\\"<technologies>\\",\\"Name\\":\\"<name_surname>\\"}},\\"……\\"]' + 'CV_text:' + text + "Behave like an API REST entrypoint, giving only JSON responses formatted strictly with no deviations. Get prompts like http requests from an API Client. Your response should be JSON parseable by a machine. Don’t give any polite introduction on your response, just JSON format"}
+            {"role": "user",
+             "content": "Please provide a JSON response, with the following structure," +
+                        '{{''\\"Skills''\\":\\"<skills>\\",\\"University\\":\\"<university>\\",'
+                        '\\"Experience\\":\\"<experience>\\",\\"Languages\\":\\"<languages>\\",'
+                        '\\"Technology\\":\\"<technologies>\\",\\"Name\\":\\"<name_surname>\\"}},\\"……\\"]' +
+                        'CV_text:' + text +
+                        "Behave like an API REST entrypoint, giving only JSON responses formatted strictly with no "
+                        "deviations. Get prompts like http requests from an API Client. Your response should be JSON "
+                        "parseable by a machine. Don’t give any polite introduction on your response, just JSON format"}
         ]
 
     )
 
-    processed = response.choices[0].message
+    processed = response.choices[0].message.content
     return processed
