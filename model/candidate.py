@@ -27,5 +27,3 @@ class DynamicCandidate(Document):
     experience = ListField(EmbeddedDocumentField(Experience))
     education = EmbeddedDocumentField(Education)
     skills = EmbeddedDocumentField(Skills)
-    languages = ListField(StringField())
-    technology = ListField(StringField())

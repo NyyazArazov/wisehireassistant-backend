@@ -71,8 +71,8 @@ def get_response(text):
             {"role": "user",
              "content": "Please provide a JSON response, with the following structure," +
                         '{{''\\"skills''\\":\\"<all_skill_here_as_a_list>\\",\\"university\\":\\"<university>\\",'
-                        '\\"experience\\":\\"<experience>\\",\\"languages\\":\\"<languages>\\",'
-                        '\\"technology\\":\\"<technologies>\\",\\"name\\":\\"<name_surname>\\"}},\\"……\\"]' +
+                        '\\"experience\\":\\"<experience>\\",'
+                        '\\"name\\":\\"<name_surname>\\"}},\\"……\\"]' +
                         'CV_text:' + text +
                         "Behave like an API REST entrypoint, giving only snake case JSON responses "
                         "formatted strictly"
