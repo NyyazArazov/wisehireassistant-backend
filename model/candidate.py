@@ -1,32 +1,31 @@
-from mongoengine import Document, StringField, ListField, EmbeddedDocument, EmbeddedDocumentField, FloatField
+from mongoengine import Document, StringField, ListField, EmbeddedDocumentField, FloatField, EmbeddedDocument
+
 
 class Experience(EmbeddedDocument):
-    Company = StringField(required=True)
-    Location = StringField(required=True)
-    Position = StringField(required=True)
-    Duration = StringField(required=True)
-    Responsibilities = ListField(StringField())
-     
+    company = StringField(required=True)
+    location = StringField(required=True)
+    position = StringField(required=True)
+    duration = StringField(required=True)
+    responsibilities = ListField(StringField())
+
+
 class Education(EmbeddedDocument):
-    University = StringField(required=True)
-    Location = StringField(required=True)
-    Degree = StringField(required=True)
-    Duration = StringField(required=True)
+    university = StringField(required=True)
+    location = StringField(required=True)
+    degree = StringField(required=True)
+    duration = StringField(required=True)
     GPA = FloatField()
 
+
 class Skills(EmbeddedDocument):
-    Programming_Languages = ListField(StringField())
-    Frontend_Technologies = ListField(StringField())
-    Backend_Technologies = ListField(StringField())
-    Operating_Systems = ListField(StringField())
-    Databases = ListField(StringField())
-    Other = ListField(StringField())
+    skills = ListField(StringField())
+    other = ListField(StringField())
+
 
 class DynamicCandidate(Document):
-    Name = StringField(required=True)
-    Experience = ListField(EmbeddedDocumentField(Experience))
-    Education = EmbeddedDocumentField(Education)
-    Skills = EmbeddedDocumentField(Skills)
-    Languages = ListField(StringField())
-    Technology = ListField(StringField())
-
+    name = StringField(required=True)
+    experience = ListField(EmbeddedDocumentField(Experience))
+    education = EmbeddedDocumentField(Education)
+    skills = EmbeddedDocumentField(Skills)
+    languages = ListField(StringField())
+    technology = ListField(StringField())

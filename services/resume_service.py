@@ -59,6 +59,7 @@ def get_response(text):
     )
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
+        temperature=0,
         messages=[
             {"role": "system", "content": "You're an AI-powered CV parser capable of extracting relevant information "
                                           "from resumes. The system should accurately identify and categorize key "
@@ -69,16 +70,22 @@ def get_response(text):
                                           "efficiently.Only provide information for the provided CV_text."},
             {"role": "user",
              "content": "Please provide a JSON response, with the following structure," +
-                        '{{''\\"Skills''\\":\\"<skills>\\",\\"University\\":\\"<university>\\",'
-                        '\\"Experience\\":\\"<experience>\\",\\"Languages\\":\\"<languages>\\",'
-                        '\\"Technology\\":\\"<technologies>\\",\\"Name\\":\\"<name_surname>\\"}},\\"……\\"]' +
+                        '{{''\\"skills''\\":\\"<all_skill_here_as_a_list>\\",\\"university\\":\\"<university>\\",'
+                        '\\"experience\\":\\"<experience>\\",\\"languages\\":\\"<languages>\\",'
+                        '\\"technology\\":\\"<technologies>\\",\\"name\\":\\"<name_surname>\\"}},\\"……\\"]' +
                         'CV_text:' + text +
-                        "Behave like an API REST entrypoint, giving only JSON responses formatted strictly with no "
-                        "deviations. Get prompts like http requests from an API Client. Your response should be JSON "
+                        "Behave like an API REST entrypoint, giving only snake case JSON responses "
+                        "formatted strictly"
+                        "with no"
+                        "deviations. I don't need any extra information, provide response strictly using structure "
+                        "provided above. Get prompts like http requests from an API Client. Your response should be "
+                        "JSON"
                         "parseable by a machine. Don’t give any polite introduction on your response, just JSON format"}
         ]
 
     )
+
+    print(response)
 
     processed = response.choices[0].message.content
     return processed
