@@ -1,4 +1,5 @@
 import os
+import json
 from mongoengine import connect
 from gridfs import GridFS
 from io import BytesIO
@@ -83,9 +84,37 @@ def get_response(text):
                         "parseable by a machine. Don’t give any polite introduction on your response, just JSON format"}
         ]
 
+
     )
 
-    print(response)
-
+    fn_client = OpenAI(
+        api_key=os.environ.get("FINETUNE_API_KEY"),
+    )
+    ft_response = fn_client.chat.completions.create(
+        model="ft:gpt-3.5-turbo-0125:personal::9BimcPvv",
+        top_p=1,
+        temperature=0,
+        messages=[
+            {"role": "system", "content": "I am assigning you the role of a system AI hiring assistant for an "
+                                          "intelligent job matching platform. Your task involves reviewing resumes "
+                                          "with two main objectives:\n\n1. Ensure consistency by identifying any "
+                                          "instances of overlapping work experiences. A consistent resume should have "
+                                          "distinct and non-overlapping work periods.\n2. Verify the presence of at "
+                                          "least one programming language skill. This is a key requirement for "
+                                          "consistency in our evaluation criteria.\n\nA resume is deemed consistent "
+                                          "only if it meets both criteria: it has no overlapping work experience and "
+                                          "includes at least one programming language in the skills section. Any "
+                                          "deviation from these standards is considered inconsistent."},
+            {"role": "user",
+             "content": "Can you review this resume [RESUME] and tell me if it shows consistency in terms of "
+                        "overlapping work experience and the presence of at least one programming language?"
+                        "[RESUME]="+text}
+        ]
+    )
     processed = response.choices[0].message.content
-    return processed
+
+    processed_json = json.loads(processed)
+    processed_json["consistency"] = ft_response.choices[0].message.content
+    processed_with_consistent = json.dumps(processed_json, indent=4)
+
+    return processed_with_consistent
