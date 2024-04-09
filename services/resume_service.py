@@ -71,9 +71,11 @@ def get_response(text):
                                           "efficiently.Only provide information for the provided CV_text."},
             {"role": "user",
              "content": "Please provide a JSON response, with the following structure," +
-                        '{{''\\"skills''\\":\\"<all_skill_here_as_a_list>\\",\\"university\\":\\"<university>\\",'
+                        '{{''\\"skills''\\":\\"<all_skill_here_as_a_list>\\",\\"degree\\":\\"<degree>\\",'
+                        '\\"name\\":\\"<name_surname>\\",'
+                        '\\"university\\":\\"<university>\\",'
                         '\\"experience\\":\\"<experience>\\",'
-                        '\\"name\\":\\"<name_surname>\\"}},\\"……\\"]' +
+                        '\\"title\\":\\"<title>\\",}},\\"……\\"]' +
                         'CV_text:' + text +
                         "Behave like an API REST entrypoint, giving only snake case JSON responses "
                         "formatted strictly"
@@ -112,9 +114,9 @@ def get_response(text):
         ]
     )
     processed = response.choices[0].message.content
+    print(processed)
 
     processed_json = json.loads(processed)
     processed_json["consistency"] = ft_response.choices[0].message.content
     processed_with_consistent = json.dumps(processed_json, indent=4)
-
     return processed_with_consistent
