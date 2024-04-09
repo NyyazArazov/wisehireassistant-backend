@@ -11,5 +11,6 @@ def evaluate():
     
     file = request.files['file']
     json_file = evaluate_service(file)
+    print(json_file)
     save_candidate(json_file)    
     return json_file
