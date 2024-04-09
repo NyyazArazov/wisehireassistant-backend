@@ -3,12 +3,14 @@ from flask import Flask
 from api.resume import resume_route
 from api.position import position_route
 from api.similarity import similarity_route
+from api.details import details_route
 from mongoengine import connect
 
 app = Flask(__name__)
 app.register_blueprint(resume_route)
 app.register_blueprint(position_route)
 app.register_blueprint(similarity_route)
+app.register_blueprint(details_route)
 
 connect(host=os.environ.get('MONGO_URI'))
 

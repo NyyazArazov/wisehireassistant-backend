@@ -1,3 +1,4 @@
+import json
 import os
 from mongoengine import connect
 from gridfs import GridFS
@@ -36,12 +37,16 @@ def get_similarity_score(similarity_score_id):
     return similarity_score_obj
 
 # Funtion that calculates similarity_score    
-def calculate_similarity_score(candidate_id, position_id):    
-    candidate = DynamicCandidate.objects(id=candidate_id).first()
-    position = Position.objects(id=position_id).first()
-    texts = [candidate.to_json(), position.to_json()]
-    tfidf_vectorizer = TfidfVectorizer()
-    tfidf_matrix = tfidf_vectorizer.fit_transform(texts)
-    cosine_sim = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])
+def calculate_similarity_score(resume_json, position_id):    
+    position = Position.objects.filter(id=position_id).first()
+    if position is None:
+        return None, "Position not found"
+    else:
+        resume_list = json.dumps(resume_json)
+        positionInfo_list = position.companyName + " " + position.jobTitle + " " + position.salary + " " + position.jobDescription
+        texts = [resume_list, positionInfo_list]
+        tfidf_vectorizer = TfidfVectorizer()
+        tfidf_matrix = tfidf_vectorizer.fit_transform(texts)
+        cosine_sim = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])
 
-    return cosine_sim[0][0], None 
+        return cosine_sim[0][0], None
