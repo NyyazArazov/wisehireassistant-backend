@@ -20,11 +20,10 @@ def saveDetails():
 @details_route.route("/api/details/getAllDetails", methods=['GET'])
 def getAllDetails():      
     try:
-        data = request.json
-        position_id = data.get('position_id')  
-
+        position_id = request.args.get('position_id')  
+        print(position_id)
         result = get_all_details(position_id)
 
-        return result
+        return jsonify(result)
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 500
