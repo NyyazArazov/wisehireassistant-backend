@@ -1,5 +1,6 @@
 from mongoengine import Document, StringField
 
+
 class Details(Document):
     name = StringField(required=True)
     rank = StringField(required=True)
